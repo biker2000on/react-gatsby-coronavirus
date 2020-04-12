@@ -43,16 +43,16 @@ const IndexPage = () => {
     const geoJson = {
       type: 'FeatureCollection',
       features: data.map((country = {}) => {
-        const { countryInfo = {} } = country
-        const { lat, long:lng } = countryInfo
+        const { countryInfo = {} } = country;
+        const { lat, long: lng } = countryInfo;
         return {
           type: 'Feature',
           properties: {
-            ...country
+            ...country,
           },
           geometry: {
             type: 'Point',
-            coordinates: { lng, lat }
+            coordinates: [ lng, lat ]
           }
         }
       })
@@ -62,26 +62,26 @@ const IndexPage = () => {
 
     const geoJsonLayers = new L.GeoJSON(geoJson, {
       pointToLayer: (feature = {}, latlng) => {
-        const {properties = {}} = feature
-        let updatedFormatted
-        let casesString
+        const { properties = {} } = feature;
+        let updatedFormatted;
+        let casesString;
 
         const {
-          country, 
-          updated, 
+          country,
+          updated,
           cases,
           deaths,
           recovered
         } = properties
 
-        casesString = `${cases}`
+        casesString = `${cases}`;
 
         if ( cases > 1000 ) {
           casesString = `${casesString.slice(0, -3)}k+`
         }
 
-        if (updated) {
-          updatedFormatted = new Date(updated).toLocaleString()
+        if ( updated ) {
+          updatedFormatted = new Date(updated).toLocaleString();
         }
 
         const html = `
@@ -97,17 +97,20 @@ const IndexPage = () => {
             </span>
             ${ casesString }
           </span>
-        `
+        `;
 
         return L.marker( latlng, {
           icon: L.divIcon({
-            className: 'Icon',
+            className: 'icon',
             html
           }),
           riseOnHover: true
-        })
+        });
       }
-    })
+    });
+
+    geoJsonLayers.addTo(map)
+
   }
 
   const mapSettings = {
@@ -120,19 +123,11 @@ const IndexPage = () => {
   return (
     <Layout pageName="home">
       <Helmet>
-        <title>Home Page</title>
+        <title>Coronavirus Map</title>
       </Helmet>
 
       <Map {...mapSettings} />
 
-      <Container type="content" className="text-center home-start">
-        <h2>Still Getting Started?</h2>
-        <p>Run the following in your terminal!</p>
-        <pre>
-          <code>gatsby new [directory] https://github.com/colbyfayock/gatsby-starter-leaflet</code>
-        </pre>
-        <p className="note">Note: Gatsby CLI required globally for the above command</p>
-      </Container>
     </Layout>
   );
 };
