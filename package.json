@@ -18,7 +18,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^5.2.0",
-    "react-leaflet": "^2.6.3"
+    "react-leaflet": "^2.6.3",
+    "react-tabulator": "^0.12.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
@@ -48,7 +49,7 @@
     "build": "gatsby build",
     "bump": "npm version",
     "clean": "gatsby clean",
-    "develop": "gatsby develop",
+    "dev": "gatsby develop",
     "format": "prettier-eslint --eslint-config-path ./config/eslint.config.js --write $PWD'**/*.js'",
     "lint": "eslint -c ./config/eslint.config.js . --ext .js",
     "start": "yarn develop",

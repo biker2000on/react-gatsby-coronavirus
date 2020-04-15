@@ -4,4 +4,17 @@
     color: magenta;
   }
   
+  .tabulator {
+    height: 75vh;
+  }
+
+  .tabulator-header, .tabulator-cell {
+    height: 30px !important
+  }
+
+  main {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
 }
