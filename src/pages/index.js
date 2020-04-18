@@ -139,7 +139,6 @@ const IndexPage = () => {
                     <li><strong>Last Update:</strong> ${new Date(props.updated).toLocaleString()}</li>
                   </ul>
                 </span>
-                ${ props.cases }
               </span>`
             : 'Hover over a country'
     };
