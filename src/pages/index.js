@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Helmet from 'react-helmet';
 import L from 'leaflet';
 import axios from 'axios'
 
 import Layout from 'components/Layout';
 import Map from 'components/Map';
+import Container from 'components/Container'
 import countryOutlines from 'data/countries'
+import LineChart from 'components/LineChart'
 
 const LOCATION = {
   lat: 38.9072,
@@ -15,6 +17,9 @@ const CENTER = [LOCATION.lat, LOCATION.lng];
 const DEFAULT_ZOOM = 2;
 
 const IndexPage = () => {
+
+  const [loc, setLoc] = useState('USA')
+  const [d, setDataMap] = useState({USA: {ADMIN:"United States", ISO_A3: "USA"}, CAN: {ADMIN: "Canada", ISO_A3: "CAN"}})
 
   /**
    * mapEffect
@@ -106,11 +111,12 @@ const IndexPage = () => {
     //     });
     //   }
     // });
-
     let dataMap = {}
     data.map((c) => {
       dataMap[c.countryInfo.iso3] = c
     })
+
+    console.log("map", dataMap)
 
     countryOutlines.features.map((c,i) => {
       countryOutlines.features[i].properties = {...c.properties, ...dataMap[c.properties.ISO_A3] }
@@ -206,7 +212,12 @@ const IndexPage = () => {
     geoJsonLayers = new L.GeoJSON(countryOutlines, {style: style, onEachFeature: onEachFeature})
 
     geoJsonLayers.addTo(map)
+    setDataMap(dataMap)
+  }
 
+  function handleSelect(val) {
+    console.log(val)
+    setLoc(val)
   }
 
   const mapSettings = {
@@ -223,6 +234,14 @@ const IndexPage = () => {
       </Helmet>
 
       <Map {...mapSettings} />
+      <Container>
+        <select id="state" value={loc} onChange={e => handleSelect(e.target.value)}>
+          {Object.keys(d).map((c) => (
+            <option value={c} key={c}>{d[c].country}</option>
+          ))}
+        </select>
+        <LineChart code={loc} />
+      </Container>
 
     </Layout>
   );
